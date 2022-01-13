@@ -1,0 +1,52 @@
+# Dotbro configuration file.
+#
+# Some points:
+# - Almost all options have default value.
+# - You can use $ENV_VARIABLE in paths.
+
+[directories]
+
+# Directory of your dotfiles repository.
+# Default: directory of this config.
+dotfiles = "$HOME/dotfiles"
+
+# Destination directory - your dotfiles will be linked there.
+# Default: $HOME
+destination = "$HOME"
+
+# Backup directory - your original files will be backuped there.
+# Default: $HOME/.dotfiles~
+backup = "$HOME/.etc.bkp~"
+
+[mapping]
+"alacritty" = ".config/alacritty"
+"awesome" = ".config/awesome"
+"bat" = ".config/bat"
+"beets" =  ".config/beets"
+"BetterDiscord" = ".config/BetterDiscord"
+"bin" = "bin"
+"cava" = ".config/cava"
+"compton/compton.conf" = ".config/compton.conf"
+"doom" = ".config/doom"
+"dotbro" = ".config/dotbro"
+"fish" = ".config/fish"
+"fontconfig" = ".config/fontconfig"
+"fonts" = ".local/share/fonts"
+"git" = ".config/git"
+"gtk/gtkrc" = ".config/gtkrc"
+"htop" = ".config/htop"
+"mpd" = ".config/mpd"
+"mpv" = ".config/mpv"
+"ncmpcpp" = ".config/ncmpcpp"
+"nvim" = ".config/nvim"
+"profile" = ".profile"
+"ranger" = ".config/ranger"
+"systemd" = ".config/systemd"
+"termite" = ".config/termite"
+"themes" = "$XDG_DATA_HOME/themes"
+"tmux" = ".config/tmux"
+"weechat" = ".weechat"
+"xorg" = ".config/xorg"
+"yay" = ".config/yay"
+"teiler" = ".config/teiler"
+"stylelint" = ".config/stylelint"
