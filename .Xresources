@@ -1,0 +1,145 @@
+!  _______      _                 
+! (_______)    | |                
+!  _       ___ | | ___   ____ ___ 
+! | |     / _ \| |/ _ \ / ___)___)
+! | |____| |_| | | |_| | |  |___ |
+!  \______)___/ \_)___/|_|  (___/ 
+!                                    
+
+
+! special
+*.foreground:   #f8f8f2
+*.background:   #1e222a
+*.cursorColor:  #F8F8F2
+
+! black
+*.color0:       #3D4C5F
+*.color8:       #56687E
+
+! red
+*.color1:       #EE4F84
+*.color9:       #F48FB1
+
+! green
+*.color2:       #53E2AE
+*.color10:      #A1EFD3
+
+! yellow
+*.color3:       #F1FF52
+*.color11:      #F1FA8C
+
+! blue
+*.color4:       #6498EF
+*.color12:      #92B6F4
+
+! magenta
+*.color5:       #985EFF
+*.color13:      #BD99FF
+
+! cyan
+*.color6:       #24D1E7
+*.color14:      #87DFEB
+
+! white
+*.color7:       #E5E5E5
+*.color15:      #F8F8F2
+
+
+!  _______                    
+! (_______)          _        
+!  _____ ___  ____ _| |_  ___ 
+! |  ___) _ \|  _ (_   _)/___)
+! | |  | |_| | | | || |_|___ |
+! |_|   \___/|_| |_| \__|___/ 
+
+Xft.dpi: 96
+Xft.antialias: true
+Xft.hinting: true
+Xft.rightScrollBar: rgb
+Xft.autohint: true
+Xft.hintstyle: full
+Xft.lcdfilter: lcddefault
+
+!  _     _ ______                    
+! (_)   (_|_____ \               _   
+!  _     _ _____) )_   _ _   _ _| |_ 
+! | |   | |  __  /( \ / ) | | (_   _)
+! | |___| | |  \ \ ) X ( \ V /  | |_ 
+!  \_____/|_|   |_(_/ \_) \_/    \__)
+
+URxvt.cursorBlink: 1
+URxvt.font: xft:SF Mono:pixelsize=13:minspace=False,\
+	xft:MesloLGS Nerd Font:pixelsize=11:minspace=false,\
+	xft:Noto Sans Devanagari:pixelsize=11:minspace=false
+URxvt.boldFont: xft:SF Mono:pixelsize=13:weight=bold,\
+	xft:MesloLGS Nerd Font:pixelsize=11:minspace=false,\
+	xft:Noto Sans Devanagari:pixelsize=11:minspace=false
+URxvt.italicFont: xft:SF Mono::pixelsize=13:weight=italic,\
+	xft:MesloLGS Nerd Font:pixelsize=11:minspace=false,\
+	xft:Noto Sans Devanagari:pixelsize=11:minspace=false
+
+
+URxvt.lineSpace: 0
+URxvt.letterSpace: 1
+URxvt.scrollBar: false
+URxvt.internalBorder: 16 
+URxvt.geometry: 92x24
+URxvt.thickness: 5
+URxvt.titleBar: true
+URxvt.intensityStyles: false
+URxvt.scrollTtyKeypress: true
+URxvt.scrollTtyOutput: true
+URxvt.cursorUnderline: false
+URxvt.allow_bold: true
+URxvt.iso14755: False
+
+URxvt.perl-ext-common: resize-font,fullscreen,matcher,clipboard,keyboard-select
+URxvt.url-launcher: firefox
+URxvt.matcher.button: 1
+! REMAP HOTKEYS C - ctrl, M - alt
+! move a cursor to the begining of a line
+URxvt.keysym.M-i: \033[1~
+! move a cursor to the ending of a line
+! URxvt.keysym.M-j: \033[1;5B
+URxvt.keysym.M-x: \033[3~
+! jump to the next word
+URxvt.keysym.M-w: \033[1;5C
+! jump to the previous word
+URxvt.keysym.M-b: \033[1;5D
+! copy from a terminaail
+URxvt.keysym.M-c: perl:clipboard:copy
+! insert into a terminal
+URxvt.keysym.M-v: perl:clipboard:paste
+! insert into a terminal with escaping special characters
+URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
+URxvt.keysym.M-s: perl:keyboard-select:activate
+
+
+!Clear terminal
+!URxvt.keysym.C-l: 
+!Clear terminal
+!URxvt.keysym.C-l: 
+
+!  _     _ _______                
+! (_)   (_|_______)               
+!    ___      _ _____  ____ ____  
+!   |   |    | | ___ |/ ___)    \ 
+!  / / \ \   | | ____| |   | | | |
+! |_|   |_|  |_|_____)_|   |_|_|_|
+
+XTerm.termName: xterm-256color
+XTerm.vt100.locale: true
+XTerm.vt100.metaSendsEscape: true
+XTerm.vt100.backarrowKey: false
+XTerm.ttyModes: erase ^?
+XTerm.vt100.saveLines: 16384
+XTerm.vt100.faceName: xft:MesloLGS NF:size=10.5:antialias=true
+XTerm.vt100.bellIsUrgent: true
+XTerm.letterSpace: 0
+XTerm.scaleHeight: 1.01
+XTerm.faceSize: 10
+XTerm.internalBorder: 32
+XTerm.vt100*geometry: 70x13
+XTerm.loginShell: true
+XTerm.charClass: 33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48
+XTerm.eightBitInput: false
