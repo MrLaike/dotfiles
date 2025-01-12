@@ -1,0 +1,180 @@
+{
+    "class …": {
+        "prefix": "class",
+        "body": [
+            "final class ${1} {",
+            "\t$0",
+            "}",
+            ""
+        ],
+        "description": "Class definition"
+    },
+    "function __construct": {
+        "prefix": "__construct",
+        "body": [
+            "public function __construct(${1}) {",
+            "}"
+        ],
+        "description": "Create __construct method using the last php syntax."
+    },
+    "Private ": {
+        "prefix": "prif",
+        "body": [
+            "private function ${1}() {",
+            "\t${0}",
+            "}"
+        ],
+        "description": "Private function "
+    },
+    "Public ": {
+        "prefix": "pubf",
+        "body": [
+            "public function ${1}() {",
+            "\t${0}",
+            "}"
+        ],
+        "description": "public "
+    },
+    "function …": {
+        "prefix": "fun",
+        "body": [
+            "function ${2:name}(${3}) {",
+            "\t${0}",
+            "}"
+        ],
+        "description": "Function"
+    },
+    "trait …": {
+        "prefix": "trait",
+        "body": [
+            "trait ${2:TraitName}",
+            "{",
+            "\t$0",
+            "}",
+            ""
+        ],
+        "description": "Trait"
+    },
+    "define(…, …)": {
+        "prefix": "def",
+        "body": ["define('$1', ${2:'$3'});", "$0"],
+        "description": "Definition"
+    },
+    "do … while …": {
+        "prefix": "do",
+        "body": [
+            "do {",
+            "\t${0}",
+            "} while (${1});"
+        ],
+        "description": "Do-While loop"
+    },
+    "while …": {
+        "prefix": "while",
+        "body": [
+            "while (${1}) {",
+            "\t${0}",
+            "}"
+        ],
+        "description": "While-loop"
+    },
+    "if …": {
+        "prefix": "if",
+        "body": ["if (${1}) {", "\t${0}", "}"],
+        "description": "If block"
+    },
+    "if … else …": {
+        "prefix": "ifelse",
+        "body": [
+            "if (${1:condition}) {",
+            "\t${2}",
+            "} else {",
+            "\t${3}",
+            "}",
+            "$0"
+        ],
+        "description": "If Else block"
+    },
+    "$… = ( … ) ? … : …": {
+        "prefix": "if?",
+        "body": "\\$${1:retVal} = (${2:condition}) ? ${3:a} : ${4:b} ;",
+        "description": "Ternary conditional assignment"
+    },
+    "else …": {
+        "prefix": "else",
+        "body": ["else {", "\t${0}", "}"],
+        "description": "Else block"
+    },
+    "elseif …": {
+        "prefix": "elseif",
+        "body": ["elseif (${1:condition}) {", "\t${0}", "}"],
+        "description": "Elseif block"
+    },
+    "for …": {
+        "prefix": "for",
+        "body": [
+            "for (\\$${1:i}=${2:0}; \\$${1:i} < $3; \\$${1:i}++) { ",
+            "\t${0}",
+            "}"
+        ],
+        "description": "For-loop"
+    },
+    "foreach …": {
+        "prefix": "foreach",
+        "body": [
+            "foreach (${1}) {",
+            "\t${0}",
+            "}"
+        ],
+        "description": "Foreach loop"
+    },
+    "… => …": {
+        "prefix": "keyval",
+        "body": "'$1' => $2${3:,} $0",
+        "description": "Key-Value initializer"
+    },
+    "switch …": {
+        "prefix": "switch",
+        "body": [
+            "switch (\\$${1}) {",
+            "\tcase '${2}':",
+            "\t\t${3}",
+            "\t\tbreak;",
+            "\t$0",
+            "\tdefault:",
+            "\t\t${4}",
+            "\t\tbreak;",
+            "}"
+        ],
+        "description": "Switch block"
+    },
+    "case …": {
+        "prefix": "case",
+        "body": ["case '${1:value}':", "\t${0}", "\tbreak;"],
+        "description": "Case Block"
+    },
+    "$this->…": {
+        "prefix": "this",
+        "body": "\\$this->$0;",
+        "description": "$this->..."
+    },
+    "Throw Exception": {
+        "prefix": "throw",
+        "body": [
+            "throw new $1Exception(${2:\"${3:Error Processing Request}\"}${4:, ${5:1}});",
+            "$0"
+        ],
+        "description": "Throw exception"
+    },
+    "Try Catch Block": {
+        "prefix": "try",
+        "body": [
+            "try {",
+            "\t${1}",
+            "} catch (${2:\\Throwable} ${3:\\$th}) {",
+            "\t${4}",
+            "}"
+        ],
+        "description": "Try catch block"
+    }
+}

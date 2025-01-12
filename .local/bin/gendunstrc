@@ -1,0 +1,35 @@
+#!/bin/sh
+
+[ -f "$HOME/.cache/wal/colors.sh" ] && . "$HOME/.cache/wal/colors.sh"
+
+cat <<CONF
+[global]
+    follow = mouse
+    width = 300
+    gap_size = 10
+    origin = top-right
+    offset = 50
+    frame_width = 1
+    corner_radius = 9
+
+[urgency_low]
+    background = "$background"
+    foreground = "$foreground"
+    frame_color = "$color4"
+    timeout = 10
+    #default_icon = /path/to/icon
+
+[urgency_normal]
+    background = "$background"
+    foreground = "$foreground"
+    frame_color = "$color3"
+    timeout = 10
+    override_pause_level = 30
+
+[urgency_critical]
+    background = "$background"
+    foreground = "$foreground"
+    frame_color = "$color2"
+    timeout = 0
+    override_pause_level = 60
+CONF

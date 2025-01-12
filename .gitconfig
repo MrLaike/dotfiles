@@ -1,0 +1,17 @@
+[safe]
+	directory = /home/mrlaike/bitrix
+	directory = /home/mrlaike/Code/Work/StroyS_Back/project
+[user]
+	email = laikelst@gmail.com
+	name = MrLaike
+[core]
+	excludesFile = ~/.gitignore
+[credential]
+	helper = store
+[mergetool "nvimdiff"]
+	layout = "LOCAL,BASE,REMOTE / MERGED"
+[merge]
+	conflictstyle = diff3
+	tool = nvimdiff
+[rerere]
+	enabled = true

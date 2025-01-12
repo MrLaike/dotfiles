@@ -1,0 +1,257 @@
+/******************** BEGIN PYWALFOX CUSTOM CSS ********************/
+#main-window {
+  --pywalfox-font-size: 13px;
+  --pywalfox-font-size-sm: calc(var(--pywalfox-font-size) * 0.9);
+  --pywalfox-background: var(--lwt-accent-color);
+  --pywalfox-background-light: var(--arrowpanel-background);
+  --pywalfox-text: var(--arrowpanel-color);
+  --pywalfox-text-focus: var(--toolbar-color);
+  --pywalfox-unselected-tab-opacity: 0.8;
+  --pywalfox-darker-background: rgba(0, 0, 0, 0.4);
+  --pywalfox-padding: 4px 8px;
+  font-size: var(--pywalfox-font-size) !important;
+}
+
+/* Disable default appearance of certain elements to be able to override shadow DOM attributes */
+menupopup, menuseparator, button, search-textbox {
+  -moz-appearance: none !important;
+}
+
+/* Override the default appearance of buttons and textboxes to match the pywalfox theme */
+button, search-textbox, menuseparator {
+  background-color: var(--pywalfox-darker-background) !important;
+}
+
+/* Background color on hover in right-click context menus */
+menu[_moz-menuactive="true"], menuitem[_moz-menuactive="true"] {
+  -moz-appearance: none !important;
+  background-color: var(--pywalfox-background) !important;
+  color: var(--pywalfox-text-focus) !important;
+  padding: 4px 4px !important;
+}
+
+/* Separators in dropwdown menus */
+menuseparator {
+  height: 1px;
+}
+
+/* Elements where we set appearance to none, we need to set padding manually */
+notification, button, search-textbox {
+  padding: var(--pywalfox-padding) !important;
+}
+
+/* Fix background color of elements that can not be targeted via the Theme API */
+notification, menupopup {
+  background: var(--pywalfox-background-light) !important;
+  color: var(--pywalfox-text) !important;
+}
+
+/* Apply bold text to elements */
+textbox, panelview, .tabbrowser-tab, #sidebar-header,
+.findbar-container, toolbar[overflowable] > .customization-target {
+  font-weight: bold !important;
+}
+
+/* Decrease opacity of unselected tabs to match the default Firefox theme */
+.tabbrowser-tab:not([visuallyselected="true"]) {
+  opacity: var(--pywalfox-unselected-tab-opacity) !important;
+}
+
+/* Hide unnecessary borders */
+.sidebar-splitter, notification {
+  border: 0px !important;
+}
+
+/* Change the background color of the resize splitter on the right side of the sidebar */
+.sidebar-splitter {
+  background-color: transparent !important;
+}
+
+/* Smaller font size in panel dropdown menus */
+panelmultiview {
+  font-size: var(--pywalfox-font-size-sm) !important;
+}
+
+/* Change the grey background color seen e.g. when opening a bookmark in a newtab */
+#tabbrowser-tabpanels {
+  background-color: var(--pywalfox-background) !important;
+}
+
+/* Theme the status panel at the bottom */
+#statuspanel-label {
+  background: var(--pywalfox-background-light) !important;
+  border-color: var(--pywalfox-background) !important;
+  color: var(--pywalfox-text) !important;
+}
+/********************* END PYWALFOX CUSTOM CSS *********************/
+
+:root {
+  --s-frame-bg: red;
+  --browser-background: var(--lwt-accent-color);
+  --browser-bg-images: unset;
+  --browser-bg-bg-position: unset;
+  --browser-bg-bg-size: unset;
+  --browser-bg-bg-repeat: unset;
+  --browser-bg-base: unset;
+  --browser-bg-less-lighter: unset;
+  --browser-bg-lighter: unset;
+  --browser-bg-more-lighter: unset;
+  --browser-bg-lightest: unset;
+  --browser-bg-less-darker: unset;
+  --browser-bg-darker: var(--lwt-accent-color);
+  --browser-bg-more-darker: unset;
+  --browser-fg: var(--foreground);
+  --browser-fg-active: var(--color10);
+  --browser-border: var(--color1);
+  --browser-header-url: unset;
+  --browser-bg-url: var(--color1);
+  --browser-bg-for-header-image: unset;
+  --browser-bg-hover-for-header-image: unset;
+  --browser-bg-active-for-header-image: unset;
+  --browser-textshadow-for-header-image: unset;
+  --browser-tab-highlighter: unset;
+  --browser-loading-indicator: unset;
+  --sidebar-background-color: var(--lwt-accent-color) !important;
+  --sidebar-text-color: var(--foreground) !important;
+  --toolbar-bgcolor: var(--lwt-accent-color) !important;
+  --toolbar-color: var(--foreground) !important;
+  --tabpanel-background-color: var(--lwt-accent-color) !important;
+  --theme-images-theme_frame: unset;
+  --theme-colors-bookmark_text: #eee333;
+  --theme-colors-button_background_hover: unset;
+  --theme-colors-frame: var(--color15);
+  --theme-colors-icons: unset;
+  --theme-colors-icons_attention: unset;
+  --theme-colors-ntp_background: unset;
+  --theme-colors-ntp_text: unset;
+  --theme-colors-popup: unset;
+  --theme-colors-popup_border: unset;
+  --theme-colors-popup_highlight: unset;
+  --theme-colors-popup_highlight_text: unset;
+  --theme-colors-popup_text: unset;
+  --theme-colors-sidebar: var(--lwt-toolbar-field-highlight) !important;
+  --theme-colors-sidebar_border: var(--color33);
+  --theme-colors-sidebar_highlight: unset;
+  --theme-colors-sidebar_highlight_text: unset;
+  --theme-colors-sidebar_text: unset;
+  --theme-colors-tab_background_separator: unset;
+  --theme-colors-tab_background_text: unset;
+  --theme-colors-tab_line: unset;
+  --theme-colors-tab_loading: unset;
+  --theme-colors-tab_text: unset;
+  --theme-colors-toolbar: unset;
+  --theme-colors-toolbar_bottom_separator: unset;
+  --theme-colors-toolbar_field: unset;
+  --theme-colors-toolbar_field_border: unset;
+  --theme-colors-toolbar_field_border_focus: unset;
+  --theme-colors-toolbar_field_focus: unset;
+  --theme-colors-toolbar_field_highlight: unset;
+  --theme-colors-toolbar_field_text: unset;
+  --theme-colors-toolbar_field_text_focus: unset;
+  --theme-colors-toolbar_text: unset;
+  --theme-colors-toolbar_top_separator: unset;
+  --theme-colors-toolbar_vertical_separator: unset;
+  --theme-colors-focus_outline: unset;
+}
+
+#navigator-toolbox {
+  border-bottom: 0px !important;
+}
+
+#main-window:not([tabsintitlebar="true"]) #TabsToolbar {
+  visibility: collapse !important;
+}
+
+
+#main-window:not([tabsintitlebar="true"]) #TabsToolbar {
+  visibility: collapse !important;
+}
+
+#navigator-toolbox #nav-bar:not([customizing="true"]) > #nav-bar-customization-target > #forward-button[disabled="true"], #navigator-toolbox #nav-bar:not([customizing="true"]) > #nav-bar-customization-target > #back-button[disabled="true"] {
+  display: flex !important;
+}
+
+#reload-button, #stop-button {
+	display: none !important;
+}
+
+#unified-extensions-button {
+  display: none;
+}
+
+#urlbar-container {
+  justify-content: center;
+}
+
+#urlbar {
+	max-width: 70% !important;
+	margin: 0px !important;
+  top: 6px !important;
+}
+
+#urlbar[breakout][breakout-extend] {
+  > .urlbar-input-container {
+    height: var(--urlbar-height) !important;
+	  padding: 0px 14px !important;
+    padding-block: 0 !important;
+    padding-inline: 14px !important;
+  }
+}
+
+#urlbar-background {
+	border-radius: 12px !important;
+	opacity: 0;
+}
+
+.urlbar-input-container {
+	padding: 0px 14px !important;
+	background-color:  var(--lwt-toolbar-field-highlight) !important;
+	border: medium !important;
+	border-radius: 12px !important;
+	outline: none !important;
+	opacity: 1 !important;
+}
+
+#sidebar-header {
+	display: none;
+
+}
+
+.urlbarView {
+	border-radius: 12px !important;
+	background-color: var(--lwt-toolbar-field-highlight) !important;
+	border-inline: 0px;
+	margin: 10px 0px !important;
+	width: 100% !important;
+	padding: 0px 10px !important;
+}
+
+#browser {
+	background: var(--lwt-accent-color) !important;
+	padding: 4px;
+}
+
+#sidebar-box {
+	padding: 0px 0px 3px 3px;
+	border-radius: 15px
+}
+
+#sidebar-splitter {
+	opacity: 0;
+}
+
+.sidebar-splitter {
+	border: 0px threedshadow !important;
+	width: 3px !important;
+	background-color: var(--lwt-accent-color) !important;
+}
+
+#tabbrowser-tabbox, #tabbrowser-tabpanels {
+	border-radius: 15px;
+}
+
+#tabbrowser-tabpanels {
+  & browser[type="content"] {
+    border-radius: 14px !important;
+  }
+}

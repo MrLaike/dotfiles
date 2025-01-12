@@ -1,0 +1,3 @@
+#!/bin/bash
+gengnuplot > $HOME/.gnuplot
+/usr/bin/gnuplot

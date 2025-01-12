@@ -1,0 +1,94 @@
+#!/bin/zsh
+
+PET_PROJECTS_DIR=${PET_PROJECTS_DIR:-"$HOME/projects/"}
+
+create_php_project ()
+{
+    if ! command -v composer &> /dev/null; then
+        echo "composer not be found"
+        exit 1
+    fi
+
+    echo -n "Enter project name: "
+    read project_name
+
+    mkdir $PET_PROJECTS_DIR$project_name && cd $PET_PROJECTS_DIR$project_name
+    
+    composer init 
+    $EDITOR $PET_PROJECTS_DIR$project_name
+}
+
+create_laravel_project () {
+    if ! command -v composer &> /dev/null; then
+        echo "composer not be found"
+        exit 1
+    fi
+
+    echo -n "Enter project name: "
+    read project_name
+
+    composer create-project laravel/laravel $PET_PROJECTS_DIR$project_name
+    $EDITOR $PET_PROJECTS_DIR$project_name
+}
+
+create_spiral_project () {
+    if ! command -v composer &> /dev/null; then
+        echo "composer not be found"
+        exit 1
+    fi
+
+    echo -n "Enter project name: "
+    read project_name
+
+    composer create-project spiral/app $PET_PROJECTS_DIR$project_name
+    $EDITOR $PET_PROJECTS_DIR$project_name
+}
+
+create_rust_project () {
+    if ! command -v cargo &> /dev/null; then
+        echo "cargo not be found"
+        exit 1
+    fi
+
+    echo -n "Enter project name: "
+    read project_name
+
+    cargo new $PET_PROJECTS_DIR$project_name
+    $EDITOR $PET_PROJECTS_DIR$project_name
+}
+
+# Create main.go file stub with function
+create_go_project () {
+    if ! command -v go &> /dev/null; then
+        echo "go not be found"
+        exit 1
+    fi
+
+    echo -n "Enter project name: "
+    read project_name
+
+    mkdir $PET_PROJECTS_DIR$project_name && cd $PET_PROJECTS_DIR$project_name
+
+    go mod init $project_name &> /dev/null
+    touch "main.go"
+    $EDITOR $PET_PROJECTS_DIR$project_name
+}
+
+
+case "$1" in
+    "php") create_php_project 
+    ;;
+    "laravel") create_laravel_project 
+    ;;
+    "spiral") create_spiral_project 
+    ;;
+    "go") create_go_project
+    ;;
+    "python") echo "python"
+    ;;
+    "rust") create_rust_project
+    ;;
+    *) echo default
+    ;;
+esac
+

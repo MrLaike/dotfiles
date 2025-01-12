@@ -1,0 +1,12 @@
+#!/bin/sh
+
+dunst_tmp="/tmp/tmp.dunst"
+if [ ! -d "$dunst_tmp" ]; then
+	mkdir $dunst_tmp
+fi
+echo "# config" > "$dunst_tmp/dunstrc"
+
+[ -f $XDG_CONFIG_HOME/dunst/dunstrc ] && cat "$XDG_CONFIG_HOME/dunst/dunstrc" >> "$dunst_tmp/dunstrc" || [ -f $HOME/.config/dunst/dunstrc ] && cat "$HOME/.config/dunst/dunstrc" >> "$dunst_tmp/dunstrc" 
+
+./gendunstrc >> "$dunst_tmp/dunstrc"
+dunst -conf $dunst_tmp/dunstrc &

@@ -1,0 +1,9 @@
+.cache
+.env
+.cache
+.wine
+.ignore
+.stream
+./vifm/vifminfo.json
+*.back
+**/__pycache__/

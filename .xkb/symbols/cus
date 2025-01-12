@@ -1,0 +1,90 @@
+default partial alphanumeric_keys modifier_keys
+xkb_symbols "basic" {
+
+    name[Group1]= "English (US)";
+
+    key <TLDE>	{[   grave,	 asciitilde	]};
+    key <AE01>	{[	 1,	 exclam		]};
+    key <AE02>	{[	 2,	 at		]};
+    key <AE03>	{[	 3,	 numbersign	]};
+    key <AE04>	{[	 4,	 dollar		]};
+    key <AE05>	{[	 5,	 percent	]};
+    key <AE06>	{[	 6,	 asciicircum	]};
+    key <AE07>	{[	 7,	 ampersand	]};
+    key <AE08>	{[	 8,	 asterisk	]};
+    key <AE09>	{[	 9,	 parenleft	]};
+    key <AE10>	{[	 0,	 parenright	]};
+    key <AE11>	{[   minus,	 underscore	]};
+    key <AE12>	{[   equal,	 plus		]};
+
+    # key <AD01>	{[	 q,	 Q		]};
+    key <AD01>	{
+        type= "CUST_CAPSLOCK",
+        symbols[Group1]= [	             q,	              Q,				asciitilde]
+    };
+    key <AD02>	{[	 w,	 W		]};
+    key <AD03>	{[	 e,	 E		]};
+    key <AD04>	{[	 r,	 R		]};
+    key <AD05>	{[	 t,	 T		]};
+    key <AD06>	{[	 y,	 Y		]};
+    key <AD07>	{[	 u,	 U		]};
+    key <AD08>	{[	 i,	 I		]};
+    key <AD09>	{
+        type= "CUST_CAPSLOCK",
+        symbols[Group1]= [	             o,	              O,				Return],
+        actions[Group1]= [      NoAction(),      NoAction(),   RedirectKey(keycode=<RTRN>, clearmods=Lock) ]
+        };
+    key <AD10>	{[	 p,	 P		]};
+    key <AD11>	{[ bracketleft,	 braceleft	]};
+    key <AD12>	{[ bracketright, braceright	]};
+
+    # key <AC01>	{[	 a,	 A		]};
+    key <AC01>	{
+        type = "CUST_CAPSLOCK",
+        symbols[Group1]= [	             a,	              A,		        Contral_L],
+        actions[Group1]= [      NoAction(),      NoAction(),   RedirectKey(keycode=<LCTL>, clearmods=Lock) ]
+    };
+    key <AC02>	{[	 s,	 S		]};
+    key <AC03>	{
+        type = "CUST_CAPSLOCK",
+        symbols[Group1]= [	             d,	              D,		        BackSpace],
+        actions[Group1]= [      NoAction(),      NoAction(),   RedirectKey(keycode=<BKSP>, clearmods=Lock) ]
+    };
+    key <AC04>	{[	 f,	 F      ]};
+    key <AC05>	{[	 g,	 G		]};
+    key <AC06> {
+        type= "CUST_CAPSLOCK",
+        symbols[Group1]= [               h,               H,               Left],
+        actions[Group1]= [      NoAction(),      NoAction(),   RedirectKey(keycode=<LEFT>, clearmods=Lock) ]
+    };
+    key <AC07>	{
+        type= "CUST_CAPSLOCK",
+        symbols[Group1]= [	             j,	              J,		        Down],
+        actions[Group1]= [      NoAction(),      NoAction(),   RedirectKey(keycode=<DOWN>, clearmods=Lock) ]
+    };
+    key <AC08>	{
+        type= "CUST_CAPSLOCK",
+        symbols[Group1]= [	             k,	              K,		        Up],
+        actions[Group1]= [      NoAction(),      NoAction(),   RedirectKey(keycode=<UP>, clearmods=Lock) ]
+    };
+    key <AC09>	{
+        type= "CUST_CAPSLOCK",
+        symbols[Group1]= [	             l,	              L,	            Right],
+        actions[Group1]= [      NoAction(),      NoAction(),   RedirectKey(keycode=<RGHT>, clearmods=Lock) ]
+    };
+    key <AC10>	{[ semicolon,	 colon		]};
+    key <AC11>	{[ apostrophe,	 quotedbl	]};
+    key <BKSL>	{[ backslash,	 bar		]};
+
+    key <AB01>	{[	 z,	 Z		]};
+    key <AB02>	{[	 x,	 X		]};
+    key <AB03>	{[	 c,	 C		]};
+    key <AB04>	{[	 v,	 V		]};
+    key <AB05>	{[	 b,	 B		]};
+    key <AB06>	{[	 n,	 N		]};
+    key <AB07>	{[	 m,	 M		]};
+    key <AB08>	{[   comma,	 less		]};
+    key <AB09>	{[  period,	 greater	]};
+    key <AB10>	{[   slash,	 question	]};
+};
+

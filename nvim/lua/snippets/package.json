@@ -1,0 +1,55 @@
+{
+    "name": "custom_snippets",
+    "contributes": {
+        "snippets": [
+            {
+                 "language": "php",
+                 "path": "./snippets/php.json"
+            },
+            {
+                 "language": "tex",
+                 "path": "./snippets/latex.json"
+            },
+            {
+                 "language": "python",
+                 "path": "./snippets/python.json"
+            },
+            {
+                 "language": "lua",
+                 "path": "./snippets/lua.json"
+            },
+            {
+                 "language": "rust",
+                 "path": "./snippets/rust.json"
+            },
+            {
+                 "language": ["c", "cpp"],
+                 "path": "./snippets/c.json"
+            },
+            {
+                 "language": ["zsh", "bash", "shell", "sh"],
+                 "path": "./snippets/shell.json"
+            },
+            {
+                 "language": "go",
+                 "path": "./snippets/go.json"
+            },
+            {
+                 "language": "html",
+                 "path": "./snippets/html.json"
+            },
+            {
+                 "language": "ts",
+                 "path": "./snippets/ts.json"
+            },
+            {
+                 "language": "js",
+                 "path": "./snippets/js.json"
+            },
+            {
+                 "language": "md",
+                 "path": "./snippets/markdown.json"
+            }
+        ]
+    }
+}
