@@ -1,0 +1,15 @@
+#!/bin/bash
+
+sel=$( printf "\n󰑋\n󱄺" | dmenu -fn "Fora Code:size=30" -c -noi -w 300 )
+sleep 0.1;
+case "$sel" in
+    "")
+        flameshot gui;
+        ;;
+    "󰑋")
+        echo "record";
+        ;;
+    "󱄺")
+        flameshot gui -s -r | tesseract -l rus+eng --dpi 300 - - | xclip -selection clipboard
+        ;;
+esac

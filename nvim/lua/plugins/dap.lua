@@ -4,11 +4,18 @@ return {
     "mfussenegger/nvim-dap",
     "nvim-neotest/nvim-nio",
     {
+      "jay-babu/mason-nvim-dap.nvim",
+      opt = {
+        ensure_installed = { "php" }
+      }
+    },
+    {
       "theHamsta/nvim-dap-virtual-text",
       opt = {
         enabled = true,
         enabled_commands = true,
-        highlight_changed_variables = true,
+        highlight_changed_variables = false,
+        all_frames = true,
       },
       config = function ()
         require("nvim-dap-virtual-text").setup()
@@ -16,6 +23,7 @@ return {
     },
     {
       "leoluz/nvim-dap-go",
+
       ft = "go",
       dependencies = { "mfussenegger/nvim-dap" },
       opts = {
@@ -31,10 +39,6 @@ return {
 
   },
   init = function()
-    vim.api.nvim_set_hl(0, "DapBreakpoint", { ctermbg = 0, fg = "#993939", bg = "#31353f" })
-    vim.api.nvim_set_hl(0, "DapLogPoint", { ctermbg = 0, fg = "#61afef", bg = "#31353f" })
-    vim.api.nvim_set_hl(0, "DapStopped", { ctermbg = 0, fg = "#98c379", bg = "#31353f" })
-
     vim.fn.sign_define("DapBreakpoint", { text="", texthl="DapBreakpoint", linehl="DapBreakpoint", numhl="DapBreakpoint" })
     vim.fn.sign_define("DapBreakpointCondition", { text="ﳁ", texthl="DapBreakpoint", linehl="DapBreakpoint", numhl="DapBreakpoint" })
     vim.fn.sign_define("DapBreakpointRejected", { text="", texthl="DapBreakpoint", linehl="DapBreakpoint", numhl= "DapBreakpoint" })
@@ -42,21 +46,89 @@ return {
     vim.fn.sign_define("DapStopped", { text="", texthl="DapStopped", linehl="DapStopped", numhl= "DapStopped" })
   end,
   config = function()
+    require("dapui").setup({
+      controls = {
+        element = "repl",
+        enabled = false,
+      },
+      element_mappings = {},
+      expand_lines = true,
+      floating = {
+        border = "single",
+        mappings = {
+          close = { "q", "<Esc>" }
+        }
+      },
+      force_buffers = true,
+      icons = {
+        collapsed = " ",
+        current_frame = " ",
+        expanded = " "
+      },
+      layouts = {
+        {
+          elements = {
+            {
+              id = "scopes",
+              size = 0.25
+            },
+            {
+              id = "breakpoints",
+              size = 0.25
+            }, {
+              id = "stacks",
+              size = 0.25
+            }, {
+              id = "watches",
+              size = 0.25
+            }
+          },
+          position = "left",
+          size = 40
+        }
+      },
+      mappings = {
+        edit = "e",
+        expand = { "<CR>", "<2-LeftMouse>" },
+        open = "o",
+        remove = "d",
+        repl = "r",
+        toggle = "t"
+      },
+      render = {
+        indent = 1,
+        max_value_lines = 100
+      }
+    })
     local dap, dapui = require("dap"), require("dapui")
-    dapui.setup()
 
-    local widgets = require("dap.ui.widgets")
-
+    -- TODO change path to vscode-php-debug
+    dap.adapters.php = {
+      type = "executable",
+      command = "node",
+      args = { "/home/mrlaike/vscode-php-debug/out/phpDebug.js" },
+    }
 
     dap.configurations.php = {
       {
-        type = "php";
-        request = "launch";
-        name = "Launch file";
-        hostname = "0.0.0.0";
-        pathMapping = {{
-          ["/var/www/html"] = vim.fn.getcwd() .. "/";
-        }}
+        type = "php",
+        request = "launch",
+        name = "Docker Xdebug",
+        pathMappings = {
+          ["/var/www/bitrix"] = "${workspaceFolder}";
+        },
+        proxy = {
+          host = "host.docker.internal",
+          port = 9003,
+          idekey = "PHPSTORM"
+
+        }
+      },
+      {
+        type = "php",
+        name = "Local Xdebug",
+        request = "launch",
+        port = 9003
       }
     }
 
@@ -64,7 +136,7 @@ return {
       type = "server",
       port = "${port}",
       executable = {
-        command = "/home/mrlaike/.local/share/nvim/mason/bin/codelldb",
+        command = vim.fn.exepath("codelldb"),
         args = {"--port", "${port}"},
       }
     }
@@ -75,12 +147,15 @@ return {
         type = "codelldb",
         request = "launch",
         program = function()
-          return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+          return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
         end,
         cwd = "${workspaceFolder}",
         stopOnEntry = false,
       },
     }
+
+    dap.configurations.rust = dap.configurations.c
+    dap.configurations.cpp = dap.configurations.c
 
     dap.adapters.gdb = {
       type = "executable",

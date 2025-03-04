@@ -8,10 +8,17 @@
 	excludesFile = ~/.gitignore
 [credential]
 	helper = store
+
 [mergetool "nvimdiff"]
 	layout = "LOCAL,BASE,REMOTE / MERGED"
+	keepBackup = false
+	cmd = nvim -n -c "DiffviewOpen" "$MERGE" -c "DiffviewToggleFiles"
+
 [merge]
 	conflictstyle = diff3
 	tool = nvimdiff
+
 [rerere]
 	enabled = true
+[mergetool]
+	keepBackup = false

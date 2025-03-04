@@ -2,16 +2,16 @@ return {
   'kevinhwang91/nvim-ufo',
   dependencies = {
     'kevinhwang91/promise-async',
-    {
-      "lukas-reineke/indent-blankline.nvim",
-      main = "ibl",
-      config = function ()
-        require("ibl").setup({
-          indent = {char = " "},
-          scope = {char = "┆", show_start = false, enabled = true},
-        })
-      end,
-    },
+    -- {
+    --   "lukas-reineke/indent-blankline.nvim",
+    --   main = "ibl",
+    --   config = function ()
+    --     require("ibl").setup({
+    --       indent = {char = "-", show_start = false, enabled = true},
+    --       scope = {char = "", show_start = false, enabled = true},
+    --     })
+    --   end,
+    -- },
   },
   event = "BufReadPost",
   opts = {

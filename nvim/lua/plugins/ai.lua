@@ -1,0 +1,42 @@
+return {
+    'milanglacier/minuet-ai.nvim',
+    config = function()
+        require('minuet').setup {
+            cmp = {
+                enable_auto_complete = true,
+            },
+            provider = 'openai_compatible',
+            n_completions = 1,
+            context_window = 512,
+            notify = 'debug',
+            notify_callback = function(msg)
+                vim.notify(msg)
+            end,
+            provider_options = {
+                openai_compatible = {
+                    api_key = 'TERM',
+                    name = 'Ollama',
+                    end_point = 'http://localhost:11434/v1/chat/completions',
+                    model = 'qwen2.5-coder:3B',
+                    -- stream = true,
+                    optional = {
+                        stop = 0,
+                        max_tokens = 256,
+                        top_p = 0.9,
+                    },
+                },
+            },
+            virtualtext = {
+                auto_trigger_ft = {},
+                keymap = {
+                    accept = '<C-a>',
+                    accept_line = '<A-a>',
+                    accept_n_lines = '<A-z>',
+                    prev = '<A-[>',
+                    next = '<A-]>',
+                    dismiss = '<A-e>',
+                },
+            },
+        }
+    end,
+}

@@ -3,31 +3,31 @@ return {
     event = "VeryLazy",
     config = function ()
         require('spellwarn').setup({
-            event = { -- event(s) to refresh diagnostics on
+            event = {
                 "CursorHold",
                 "InsertLeave",
                 "TextChanged",
                 "TextChangedI",
                 "TextChangedP",
             },
-            enable = true, -- enable diagnostics on startup
-            ft_config = { -- spellcheck method: "cursor", "iter", or boolean
+            enable = true,
+            ft_config = {
                 alpha   = false,
                 help    = false,
                 lazy    = false,
                 lspinfo = false,
                 mason   = false,
             },
-            ft_default = true, -- default option for unspecified filetypes
-            max_file_size = nil, -- maximum file size to check in lines (nil for no limit)
-            severity = { -- severity for each spelling error type (false to disable diagnostics for that type)
+            ft_default = true,
+            max_file_size = nil,
+            severity = {
                 spellbad   = "WARN",
                 spellcap   = "HINT",
                 spelllocal = "HINT",
                 spellrare  = "INFO",
             },
-            prefix = "possible misspelling(s): ", -- prefix for each diagnostic message
-            diagnostic_opts = { severity_sort = true }, -- options for diagnostic display
+            prefix = "possible misspelling(s): ",
+            diagnostic_opts = { severity_sort = true },
         })
     end,
 }

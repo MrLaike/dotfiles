@@ -1,8 +1,21 @@
 {
+    "<?": {
+        "prefix": "strict_types",
+        "body": [
+            "<?",
+            "",
+            "declare(strict_types=1)"
+        ],
+        "description": "Strict Type"
+
+    },
     "class …": {
         "prefix": "class",
         "body": [
-            "final class ${1} {",
+            "namespace ${2}",
+            "",
+            "final class ${1}", 
+            "{",
             "\t$0",
             "}",
             ""
@@ -12,15 +25,26 @@
     "function __construct": {
         "prefix": "__construct",
         "body": [
-            "public function __construct(${1}) {",
+            "public function __construct(${1})", 
+            "{",
             "}"
         ],
         "description": "Create __construct method using the last php syntax."
     },
+    "function __invoke": {
+        "prefix": "__invoke",
+        "body": [
+            "public function __invoke(${1})", 
+            "{",
+            "}"
+        ],
+        "description": "Create __invoke method using the last php syntax."
+    },
     "Private ": {
         "prefix": "prif",
         "body": [
-            "private function ${1}() {",
+            "private function ${1}()",
+            "{",
             "\t${0}",
             "}"
         ],
@@ -29,7 +53,8 @@
     "Public ": {
         "prefix": "pubf",
         "body": [
-            "public function ${1}() {",
+            "public function ${1}()",
+            "{",
             "\t${0}",
             "}"
         ],

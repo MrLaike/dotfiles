@@ -23,22 +23,48 @@ return {
 
         lspconfig.qmlls.setup{}
 
+        local project_phpactor_config = function ()
+            local root_dir = vim.loop.cwd()
+            local config_path = root_dir .. "/.phpactor.json"
+
+            -- Read and parse the .phpactor.json file if it exists
+            local f = io.open(config_path, "r")
+            if not f then
+                return {}
+            end
+            local content = f:read("*a")
+            f:close()
+
+            local success, json = pcall(vim.fn.json_decode, content)
+            if success and json then
+                return vim.tbl_deep_extend("force", {}, json)
+            end
+            return {}
+        end
         local servers = require('mason-lspconfig').get_installed_servers()
         local config = {
             ["phpactor"] = {
-                filetypes = { "php", "hphp"},
-                root_dir = function()
-                    return vim.loop.cwd()
-                end,
-                init_options = {
-                }
+                filetypes = { "php", "hphp" },
+                root_dir = lspconfig.util.root_pattern(
+                    '.phpactor.json',
+                    '.git',
+                    'composer.json'
+                ),
+                init_options = project_phpactor_config()
             },
-            ["intelephense"] = {
-                filetypes = { "php", "hphp"},
+            ["html"] = {
+                filetypes = { "html", "jsx", "php", "hphp" },
                 root_dir = function()
                     return vim.loop.cwd()
                 end,
                 init_options = {
+                    configurationSection = { "html", "css", "javascript" },
+                    embeddedLanguages = {
+                        css = true,
+                        javascript = true
+                    },
+                    provideFormatter = true
+
                 }
             },
             ["clangd"] = {
@@ -109,11 +135,6 @@ return {
             for k,v in pairs(config[lsp] or {}) do default_config[k] = v end
             lspconfig[lsp].setup(default_config)
 
-            --settings = {
-            --  Lua = {
-            --    diagnostics = { globals = {'vim'} }
-            --  }
-            --}
         end
     end
 

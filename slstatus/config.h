@@ -4,7 +4,7 @@
 const unsigned int interval = 1000;
 
 /* text to show if no value can be retrieved */
-static const char unknown_str[] = "n/a";
+static const char unknown_str[] = "";
 
 /* maximum output string length */
 #define MAXLEN 2048
@@ -64,15 +64,34 @@ static const char unknown_str[] = "n/a";
  * wifi_perc           WiFi signal in percent          interface name (wlan0)
  * vpn                 vpn connection                  status on/off
  */
+
+static const char mic[] = "muted=`wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | awk '{print $3;}'`; \
+                            volume=`wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | awk '{print $2;}'`; \
+                            if [ -z ${muted} ]; then \
+                                printf \"$(echo ${volume}*100/1 | bc)\"; \
+                            else printf \" \"; \
+                            fi";
+
+static const char vol[] = "muted=`wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $3;}'`; \
+                            volume=`wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2;}'`; \
+                            icon=`wpctl inspect @DEFAULT_AUDIO_SINK@ | awk '/headset/ {print \" \";}'`; \
+                            if [ -z ${muted} ]; then \
+                                printf \"${icon:= } $(echo ${volume}*100/1 | bc)\"; \
+                            else printf \" \"; \
+                            fi";
+
 static const struct arg args[] = {
 	/* function         format          argument */
 	{ datetime,         "%s  |",         "%F %T" },
-	{ netspeed_tx,      " 󰍠%s ",         "wlan0" },
+	{ netspeed_tx,      " 󰍠%s ",         "wlan0" },
 	{ netspeed_rx,      "󰍝%s ",         "wlan0" },
-    { wifi_essid,       " %s ",        "wlan0" },
-	{ ram_used,         " R:%s ",       NULL    },
-	{ disk_perc,        " M:%s%% ",        "/"     },
-    { battery_perc,     " 󱐋%s ",        "BAT0"  },
+    { wifi_essid,       "  %s ",        "wlan0" },
+	{ vpn,				"%s",				"wg0"},
+	{ ram_used,         "   %s ",       NULL    },
+	{ disk_perc,        " 󰋊 %s%% ",        "/"     },
+    /*{ vol_perc,         "   %s ",        "Master"  },*/
+    { run_command,         " %s%% ",        vol  },
+    { run_command,         "  %s%% ",        mic  },
+    { battery_perc,     " 󱐋 %s ",        "BAT0"  },
     { battery_state,    "%s  ",        "BAT0"  },
-    { vol_perc,         "%s  ",        "Master"  },
 };

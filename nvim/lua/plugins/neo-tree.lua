@@ -54,6 +54,31 @@ return {
         end)
       end
     },
+    renderers = {
+      directory = {
+        { "icon" },
+        { "name", use_git_status_colors = false, },
+        {
+          'symlink_target',
+          highlight = 'NeoTreeSymbolicLinkTarget',
+        },
+        { 'clipboard' },
+
+        -- { "git_status", highlight = "NeoTreeDimText" },
+      },
+      file = {
+        { 'indent' },
+        { 'icon' },
+        { 'name' },
+        { "diagnostics" },
+        {
+          'symlink_target',
+          highlight = 'NeoTreeSymbolicLinkTarget',
+        },
+        { 'clipboard' },
+        { "git_status", highlight = "NeoTreeDimText" },
+      }
+    },
     window = {
       width = 40,
       mappings = {

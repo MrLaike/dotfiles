@@ -8,8 +8,8 @@ static unsigned int borderpx  = 1;        /* border pixel of windows */
 static unsigned int snap      = 32;       /* snap pixel */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
-static char font[]            = "monospace:size=10";
-static char dmenufont[]       = "monospace:size=10";
+static char font[]            = "Fora Code:size=10";
+static char dmenufont[]       = "Fora Code:size=10";
 static const char *fonts[]          = { font };
 static char normbgcolor[]           = "#222222";
 static char normbordercolor[]       = "#444444";
@@ -25,6 +25,7 @@ static char *colors[][3] = {
 
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-p", "run: ", NULL };
+static const char *screenshotcmd[] = { "screenshot", NULL };
 static char *screencmd[] = { "flameshot", "gui", NULL };
 static char *slockcmd[] = { "slock", NULL };
 
@@ -102,8 +103,8 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_b,      togglebar,          {0} },
 	{ MODKEY,                       XK_j,      focusstack,         {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,         {.i = -1 } },
-	{ MODKEY,                       XK_i,      incnmaster,         {.i = +1 } },
-	{ MODKEY,                       XK_p,      incnmaster,         {.i = -1 } },
+	/*{ MODKEY,                       XK_i,      incnmaster,         {.i = +1 } },*/
+	/*{ MODKEY,                       XK_p,      incnmaster,         {.i = -1 } },*/
 	{ MODKEY,                       XK_h,      setmfact,           {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,           {.f = +0.05} },
 	{ MODKEY,                       XK_f,      togglefullscreen,   {0} },
@@ -117,7 +118,8 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,           {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,             {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,             {.i = +1 } },
-	{ MODKEY,                       XK_r,     reload_xresources,  {.v = NULL } },
+	{ MODKEY,                       XK_r,      reload_xresources,  {.v = NULL } },
+	{ MODKEY,                       XK_p,      spawn,			   {.v = screenshotcmd } },
 	{ 0,                            XK_Print,  spawn,              {.v = screencmd } },
 	TAGKEYS(                        XK_1,                          0)
 	TAGKEYS(                        XK_2,                          1)

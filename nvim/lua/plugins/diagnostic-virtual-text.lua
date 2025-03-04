@@ -10,7 +10,7 @@ return {
             down_arrow = "  ",
             above = false,
         },
-        priority = 2003,
+        priority = 3000,
         inline = true,
     },
 }

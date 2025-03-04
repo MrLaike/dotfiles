@@ -1,15 +1,25 @@
+
+require('plugins')
+require('keymaps')
+
+-- require('addition.open_current_dir')
 -- We need to ensure that we are in the directory specified when opening the file
 local group_cdpwd = vim.api.nvim_create_augroup("group_cdpwd", { clear = true })
-
-
 vim.api.nvim_create_autocmd({"VimEnter", "BufEnter" }, {
     group = group_cdpwd,
     pattern = {"*"},
     callback = function()
-        vim.api.nvim_set_current_dir(vim.fn.expand("%:p:h"))
+        local current_dir = require('oil').get_current_dir()
+        if type(current_dir) ~= 'string' then
+            current_dir = vim.fn.expand('%:p:h')
+        end
+        vim.api.nvim_set_current_dir(current_dir)
     end,
     once = true,
 })
+
+-- Need for set lazy.nvim keys
+require('telescope')
 
 vim.cmd [[ 
 hi DiagnosticUnderlineError guisp='Red' gui=undercurl
@@ -19,21 +29,24 @@ hi DiagnosticUnderlineHint guisp='Blue' gui=undercurl
 set termguicolors
 ]]
 
-require('plugins')
-require('keymaps')
-
 vim.diagnostic.config({
     underline = true,
     virtual_text = false,
+    -- virtual_text = { spacing = 1, prefix = "<-" },
     { virtual_lines = { only_current_line = true } },
     update_in_insert = false,
+    severity_sort = true,
     float = {
-        source = "always",
+        focusable = true,
+        style = "minimal",
         border = "rounded",
+        source = false,
+        header = "",
+        prefix = "",
     },
     signs = {
       text = {
-        [vim.diagnostic.severity.ERROR] = " ",
+        [vim.diagnostic.severity.ERROR] = " ",
         [vim.diagnostic.severity.WARN] = " ",
         [vim.diagnostic.severity.INFO] = " ",
         [vim.diagnostic.severity.HINT] = "󰌵 ",
@@ -48,6 +61,9 @@ vim.opt.autoindent = true
 vim.opt.autoread = true
 vim.opt.smartindent = true
 vim.opt.expandtab = true
+vim.opt.undofile = true
+vim.opt.showmode = false
+vim.opt.fillchars = vim.opt.fillchars + 'diff:╱'
 
 vim.opt.clipboard = "unnamedplus"
 vim.opt_local.formatoptions:remove({ 'r', 'o' })
@@ -59,12 +75,10 @@ vim.o.foldcolumn = "1"
 vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
-
-vim.o.winwidth = 10
-vim.o.winminwidth = 10
-vim.o.equalalways = false
-
 vim.g.netrw_banner = 0
+-- vim.opt.foldmethod = "manual"
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
 require('todo-comments').setup()
 

@@ -6,4 +6,5 @@
 .stream
 ./vifm/vifminfo.json
 *.back
+*.o
 **/__pycache__/

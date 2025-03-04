@@ -103,6 +103,8 @@ calcoffsets(void)
 
 	if (lines > 0)
 		n = lines * bh;
+	else if (centered)
+		n = mw - promptw;
 	else
 		n = mw - (promptw + inputw + TEXTW("<") + TEXTW(">"));
 	/* calculate which items will begin the next page and previous page */
@@ -112,6 +114,15 @@ calcoffsets(void)
 	for (i = 0, prev = curr; prev && prev->left; prev = prev->left)
 		if ((i += (lines > 0) ? bh : textw_clamp(prev->left->text, n)) > n)
 			break;
+}
+
+static int
+max_textw(void)
+{
+	int len = 0;
+	for (struct item *item = items; item && item->text; item++)
+		len = MAX(TEXTW(item->text), len);
+	return len;
 }
 
 static void
@@ -166,7 +177,7 @@ drawmenu(void)
 {
 	unsigned int curpos;
 	struct item *item;
-	int x = 0, y = 0, w;
+	int x = 0, y = 0, w = 0;
 
 	drw_setscheme(drw, scheme[SchemeNorm]);
 	drw_rect(drw, 0, 0, mw, mh, 1, 1);
@@ -181,15 +192,32 @@ drawmenu(void)
 	drw_text(drw, x, 0, w, bh, lrpad / 2, text, 0);
 
 	curpos = TEXTW(text) - TEXTW(&text[cursor]);
-	if ((curpos += lrpad / 2 - 1) < w) {
+	if (draw_input) {
+		w = (lines > 0 || !matches) ? mw - x : inputw;
 		drw_setscheme(drw, scheme[SchemeNorm]);
-		drw_rect(drw, x + curpos, 2, 2, bh - 4, 1, 0);
+		drw_text(drw, x, 0, w, bh, lrpad / 2, text, 0);
+
+		curpos = TEXTW(text) - TEXTW(&text[cursor]);
+		if ((curpos += lrpad / 2 - 1) < w) {
+			drw_setscheme(drw, scheme[SchemeNorm]);
+			drw_rect(drw, x + curpos, 2, 2, bh - 4, 1, 0);
+		}
 	}
 
 	if (lines > 0) {
 		/* draw vertical list */
 		for (item = curr; item != next; item = item->right)
 			drawitem(item, x, y += bh, mw - x);
+	} else if (centered) {
+		int len = 0;
+		int padding = 0;
+		len += inputw;
+		for (item = curr; item != next; item = item->right)
+			len += TEXTW(item->text);
+		padding = (mw - len)/2;
+		x += padding;
+		for (item = curr; item != next; item = item->right)
+			x = drawitem(item, x, 0, TEXTW(item->text));
 	} else if (matches) {
 		/* draw horizontal list */
 		x += inputw;
@@ -197,10 +225,11 @@ drawmenu(void)
 		if (curr->left) {
 			drw_setscheme(drw, scheme[SchemeNorm]);
 			drw_text(drw, x, 0, w, bh, lrpad / 2, "<", 0);
+			x += w;
 		}
-		x += w;
 		for (item = curr; item != next; item = item->right)
 			x = drawitem(item, x, 0, textw_clamp(item->text, mw - x - TEXTW(">")));
+			/*x = drawitem(item, x, 0, TEXTW(item->text));*/
 		if (next) {
 			w = TEXTW(">");
 			drw_setscheme(drw, scheme[SchemeNorm]);
@@ -461,16 +490,19 @@ keypress(XKeyEvent *ev)
 		case XK_p: ksym = XK_Up;        break;
 
 		case XK_k: /* delete right */
-			text[cursor] = '\0';
-			match();
+			if (draw_input) {
+				text[cursor] = '\0';
+				match();
+			}
 			break;
 		case XK_u: /* delete left */
-			insert(NULL, 0 - cursor);
+			if (draw_input)
+				insert(NULL, 0 - cursor);
 			break;
 		case XK_w: /* delete word */
-			while (cursor > 0 && strchr(worddelimiters, text[nextrune(-1)]))
+			while (cursor > 0 && strchr(worddelimiters, text[nextrune(-1)]) && draw_input)
 				insert(NULL, nextrune(-1) - cursor);
-			while (cursor > 0 && !strchr(worddelimiters, text[nextrune(-1)]))
+			while (cursor > 0 && !strchr(worddelimiters, text[nextrune(-1)]) && draw_input)
 				insert(NULL, nextrune(-1) - cursor);
 			break;
 		case XK_y: /* paste selection */
@@ -517,23 +549,23 @@ keypress(XKeyEvent *ev)
 	switch(ksym) {
 	default:
     insert:
-		if (!iscntrl((unsigned char)*buf))
+		if (!iscntrl((unsigned char)*buf) && draw_input)
 			insert(buf, len);
 		break;
 	case XK_Delete:
 	case XK_KP_Delete:
-		if (text[cursor] == '\0')
+		if (text[cursor] == '\0' || !draw_input)
 			return;
 		cursor = nextrune(+1);
 		/* fallthrough */
 	case XK_BackSpace:
-		if (cursor == 0)
+		if (cursor == 0 || !draw_input)
 			return;
 		insert(NULL, nextrune(-1) - cursor);
 		break;
 	case XK_End:
 	case XK_KP_End:
-		if (text[cursor] != '\0') {
+		if (text[cursor] != '\0' && draw_input) {
 			cursor = strlen(text);
 			break;
 		}
@@ -617,7 +649,7 @@ keypress(XKeyEvent *ev)
 		}
 		break;
 	case XK_Tab:
-		if (!sel)
+		if (!sel || !draw_input)
 			return;
 		cursor = strnlen(sel->text, sizeof text - 1);
 		memcpy(text, sel->text, cursor);
@@ -788,6 +820,7 @@ setup(void)
 	bh = user_bh ? bh + user_bh : bh + 2;
 	lines = MAX(lines, 0);
 	mh = (lines + 1) * bh;
+	promptw = (prompt && *prompt) ? TEXTW(prompt) - lrpad / 4 : 0;
 #ifdef XINERAMA
 	i = 0;
 	if (parentwin == root && (info = XineramaQueryScreens(dpy, &n))) {
@@ -814,9 +847,16 @@ setup(void)
 				if (INTERSECT(x, y, 1, 1, info[i]) != 0)
 					break;
 
-		x = info[i].x_org;
-		y = info[i].y_org + (topbar ? 0 : info[i].height - mh);
-		mw = info[i].width;
+		if (centered) {
+			mw = MIN(MAX(max_textw() + promptw, min_width), info[i].width);
+			x = info[i].x_org + ((info[i].width  - mw) / 2);
+			y = info[i].y_org + ((info[i].height - mh) / menu_height_ratio);
+		} else {
+			x = info[i].x_org;
+			y = info[i].y_org + (topbar ? 0 : info[i].height - mh);
+			mw = info[i].width;
+		}
+
 		XFree(info);
 	} else
 #endif
@@ -824,12 +864,19 @@ setup(void)
 		if (!XGetWindowAttributes(dpy, parentwin, &wa))
 			die("could not get embedding window attributes: 0x%lx",
 			    parentwin);
-		x = 0;
-		y = topbar ? 0 : wa.height - mh;
-		mw = wa.width;
+
+		if (centered) {
+			mw = MIN(MAX(max_textw() + promptw, min_width), wa.width);
+			x = (wa.width  - mw) / 2;
+			y = (wa.height - mh) / 2;
+		} else {
+			x = 0;
+			y = topbar ? 0 : wa.height - mh;
+			mw = wa.width;
+		}
 	}
 	promptw = (prompt && *prompt) ? TEXTW(prompt) - lrpad / 4 : 0;
-	inputw = mw / 6; /* input width: ~33% of monitor width */
+	inputw = !draw_input ? 0 : mw / 3; /* input width: ~33% of monitor width */
 	match();
 
 	/* create menu window */
@@ -866,7 +913,7 @@ setup(void)
 static void
 usage(void)
 {
-	die("usage: dmenu [-bFfiv] [-l lines] [-p prompt] [-fn font] [-m monitor]\n"
+	die("usage: dmenu [-bFfiv] [-c center] [-noi] [-l lines] [-p prompt] [-fn font] [-m monitor]\n"
 	    "             [-nb color] [-nf color] [-sb color] [-sf color] [-w windowid]");
 }
 
@@ -890,6 +937,12 @@ main(int argc, char *argv[])
 			fuzzy = 0;
 		else if (!strcmp(argv[i], "-f"))   /* grabs keyboard before reading stdin */
 			fast = 1;
+		else if (!strcmp(argv[i], "-noi")) /* no input field. intended to be used with a prompt */
+			draw_input = 0;
+		else if (!strcmp(argv[i], "-c"))   /* centers dmenu on screen */
+			centered = 1;
+		else if (!strcmp(argv[i], "-w"))   /* centers dmenu on screen */
+			min_width = atoi(argv[++i]);
 		else if (!strcmp(argv[i], "-s")) { /* case-sensitive item matching */
 			fstrncmp = strncmp;
 			fstrstr = strstr;

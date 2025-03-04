@@ -14,4 +14,9 @@ vim.opt.langmap = vim.fn.join({
   escape(ru) .. ';' .. escape(en),
 }, ',')
 
+vim.api.nvim_create_autocmd('InsertLeave', {
+  callback = function (opt)
+    vim.api.nvim_command('silent !xkb-switch -s us')
+  end
+})
 

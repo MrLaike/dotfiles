@@ -4,29 +4,94 @@ return   {
     "nvim-lua/plenary.nvim",
     "BurntSushi/ripgrep",
     {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        enabled = vim.fn.executable "make" == 1,
-        build = "make",
-        config = function()
-            require("telescope").load_extension("fzf")
-        end,
+      "danielfalk/smart-open.nvim",
+      branch = "0.2.x",
+      dependencies = {
+        "kkharji/sqlite.lua",
+        { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+      },
+    },
+    "nvim-telescope/telescope-live-grep-args.nvim" ,
+  },
+  keys = {
+    {
+      "<leader>sf",
+      mode = { "n", "v" },
+      function ()
+        local get_selected_text = require('utils.functions').get_selected_text
+        require("telescope").extensions.smart_open.smart_open({
+          default_text= get_selected_text(),
+          prompt_prefix=" ",
+          previewer = false,
+          layout_strategy = 'vertical',
+          mirror = true,
+          layout_config = {
+          mirror = true,
+            vertical = {
+                width = 0.4,
+                height = 0.6,
+            }
+          },
+        })
+      end,
+      desc = "Search files"
     },
     {
-        "nvim-telescope/telescope-frecency.nvim",
-        config = function()
-            require("telescope").load_extension("frecency")
-        end,
+      "<leader>sw",
+      function ()
+        require("telescope").extensions.live_grep_args.live_grep_args()
+      end,
+      desc = "Search words",
     },
+    {
+      '<leader>sb',
+      '<cmd>Telescope buffers<CR>',
+      desc = "Search words",
+    },
+    {
+      '<leader>st',
+      '<cmd>Telescope help_tags<CR>',
+      desc = "Search words",
+    }
   },
   config = function()
     local actions = require("telescope.actions");
+    local get_selected_text = require('utils.functions').get_selected_text
+    local lga_actions = require("telescope-live-grep-args.actions")
+
     require("telescope").setup({
+      extensions = {
+        smart_open = {
+          cwd_only = true,
+          filename_first = false,
+          match_algorithm = "fzf"
+        },
+        fzf = {
+          fuzzy = true,
+          override_generic_sorter = true,
+          override_file_sorter = true,
+          override_live_grep_sorter = true,
+          case_mode = "smart_case",
+        },
+        live_grep_args = {
+          auto_quoting = true,
+          mappings = {
+            i = {
+              ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+              ["<C-space>"] = actions.to_fuzzy_refine,
+            },
+          },
+          default_text = get_selected_text(),
+          prompt_prefix="🔍",
+        }
+      },
       defaults = {
         vimgrep_arguments = {
           'rg',
           '-i',
           '--color=never',
           '--no-heading',
+          "--ignore-file", ".ignore",
           '--with-filename',
           '--line-number',
           '--column',
@@ -34,16 +99,12 @@ return   {
         },
         layout_config = {
           horizontal = {
-            size = {
-              width = "90%",
-              height = "60%",
-            },
+            width = 0.7,
+            height = 0.6,
           },
           vertical = {
-            size = {
-              width = "90%",
-              height = "90%",
-            },
+            width = 0.7,
+            height = 0.6,
           }
         },
         mappings = {
@@ -66,36 +127,16 @@ return   {
           ".git/.*",
         },
       },
-
       pickers = {
-        find_files = {
-          --theme = "cursor",
-          prompt_prefix=" >",
-          find_command = {"ag", "-i", "--silent", "--follow", "-g", "", "--literal", "--hidden", "--ignore", ".git "},
-          on_complete = {
-            function(picker)
-              local index = 0
-              for _ in picker.manager:iter() do
-                index = index + 1
-                if index > 1 then
-                  break
-                end
-              end
-            end
-          }
+        buffers = {
+          default_text = get_selected_text(),
+          sort_lastused = true,
+          previewer = false,
+          theme = 'dropdown',
         },
         live_grep = {
+          default_text = get_selected_text(),
           prompt_prefix="🔍",
-          find_command = {"rg", "-i", "--silent", "-u", "--ignore-file", ".ignore", "--follow", "-g", "", "--literal", "--hidden","-ignore", ".git "}
-        },
-        grep_string = {
-          prompt_prefix="🔍",
-          find_command = {"rg", "-i", "--silent", "--follow", "-g", "", "--literal", "--hidden","--ignore", ".git "}
-        },
-
-        frecency = {
-          prompt_prefix="🔍",
-          find_command = {"ag", "-i", "--silent", "--follow", "-g", "", "--literal", "--hidden", "--ignore", ".git "}
         },
       },
       preview = {
@@ -124,22 +165,11 @@ return   {
           end
         end
       },
-      extensions = {
-        fzf = {
-          fuzzy = true,
-          override_generic_sorter = true,
-          override_file_sorter = true,
-          override_live_grep_sorter = true,
-          case_mode = "smart_case",
-        },
-        frecency = {
-          auto_validate = true,
-          matcher = "fuzzy",
-          path_display = { "filename_first" },
-          default_workspace = "CWD",
-          smartcase = "ON",
-        },
-      }
+      
     })
+    require("telescope").load_extension("smart_open")
+    require("telescope").load_extension("fzf")
+    require("telescope").load_extension("live_grep_args")
+
   end
 }

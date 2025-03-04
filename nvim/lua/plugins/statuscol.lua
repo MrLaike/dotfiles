@@ -12,16 +12,32 @@ return {
         require("statuscol").setup({
             setopt = true,
             thousands = false,
-            relculright = true,
+            relculright = false,
             ft_ignore = nil,
             bt_ignore = nil,
             segments = {
-                { sign = { namespace = { ".*" }, maxwidth = 1, colwidth = 1, auto = true }},
-                { sign = { namespace = { "diagnostic" }, maxwidth = 0, colwidth = 0, auto = false } },
+                { sign = { name = { ".*" }, namespace = { ".*" }, maxwidth = 1, colwidth = 2, auto = false }},
                 {
-                    text = { builtin.lnumfunc, function (args)
-                        return ((is_git() ~= 0) and "" or "│")
-                    end },
+                    text = {
+                        function(args, segment)
+                            local reverse = string.reverse
+                            local thousand_separator = " "
+                            if not args.rnu and not args.nu then return "" end
+                            if args.virtnum ~= 0 then return "%=" end
+
+                            local lnum = args.rnu and (args.relnum > 0 and args.relnum
+                            or (args.nu and args.lnum or 0)) or args.lnum
+
+                            if lnum > 999 then
+                                lnum = reverse(lnum):gsub("%d%d%d", "%1"..thousand_separator):reverse():gsub("^%"..thousand_separator, "")
+                            end
+
+                            return tostring(lnum).."%="
+                        end,
+                        function (args)
+                            return ((is_git() ~= 0) and "" or "│")
+                        end
+                    },
                     condition = { builtin.not_empty },
                     sign = {
                         maxwidth = 1,

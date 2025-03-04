@@ -2,8 +2,7 @@
 
 PET_PROJECTS_DIR=${PET_PROJECTS_DIR:-"$HOME/projects/"}
 
-create_php_project ()
-{
+create_php_project () {
     if ! command -v composer &> /dev/null; then
         echo "composer not be found"
         exit 1
